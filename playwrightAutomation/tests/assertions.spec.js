@@ -11,7 +11,7 @@ test ('AssertionsTest', async ({page}) => {
     // 2. Title assertion the page has correct title
     await expect(page).toHaveTitle('ui-playground-bondaracademy');
 
-    // Helper to assert all buttons by locator and expected text
+    // 3.1 Helper to assert all buttons by locator and expected text
     async function assertAllButtons(locator, expectedText, label) {
         const count = await locator.count();
         console.log(`Number of ${label} buttons:`, count);
@@ -22,7 +22,7 @@ test ('AssertionsTest', async ({page}) => {
         }
     }
 
-    // 3. Text assertion the element is visible and has correct text (non-problematic)
+    // 3.2 Text assertion the element is visible and has correct text (non-problematic)
     await expect(page.locator('button:has-text("Submit")').nth(0)).toBeVisible();
     await expect(page.locator('button:has-text("Submit")').nth(0)).toHaveText('Submit');
 
@@ -32,9 +32,27 @@ test ('AssertionsTest', async ({page}) => {
     await expect(page.locator('button:has-text("Submit")').nth(2)).toBeVisible();
     await expect(page.locator('button:has-text("Submit")').nth(2)).toHaveText('Submit');
 
-    // Problematic assertions only: use XPath locators as provided
+    // 3.3 Problematic assertions only: use XPath locators as provided
     await assertAllButtons(page.locator("//button[normalize-space()='Send']"), 'Send', 'Send (XPath)');
     await assertAllButtons(page.locator("//button[@class='appearance-filled size-medium shape-rectangle status-danger nb-transition']"), 'Submit', 'Submit (danger, XPath)');
     await assertAllButtons(page.locator("//button[@class='appearance-filled size-medium shape-rectangle status-warning nb-transition']"), 'Sign in', 'Sign in (warning, XPath)');
+
+    // 4. Check is enabled / is disabled
+    const radioButtonOption1 = await page.locator("//span[normalize-space()='Option 1']");
+    await expect(radioButtonOption1).toBeEnabled();
+
+    const radioButtonOption2 = await page.locator("//span[normalize-space()='Option 2']");
+    await expect(radioButtonOption2).toBeEnabled();
+
+    const radioButtonDisabledOption = await page.locator("//span[normalize-space()='Disabled Option']");
+    await expect(radioButtonDisabledOption).toBeDisabled();
+
+    // 5. Check is checked / is not checked
+    const rememberMeCheckbox = await page.locator("//form[@class='form-inline ng-untouched ng-pristine ng-valid']//span[@class='text'][normalize-space()='Remember me']");
+    await rememberMeCheckbox.click();
+    await expect(rememberMeCheckbox).toBeChecked();
+
+    const checkMeOutCheckbox = await page.locator("//span[normalize-space()='Check me out']");
+    await expect(checkMeOutCheckbox).not.toBeChecked();
 
 });
