@@ -55,4 +55,19 @@ test ('AssertionsTest', async ({page}) => {
     const checkMeOutCheckbox = await page.locator("//span[normalize-space()='Check me out']");
     await expect(checkMeOutCheckbox).not.toBeChecked();
 
+    // 6. Check matches text elements
+    await expect(await page.locator("//span[normalize-space()='Playground']")).toHaveText('Playground')
+
+    // 7. Check contains text elements
+    await expect(await page.locator("//span[normalize-space()='Playground']")).toContainText('Play')
+
+    // 8. Input has a value
+    const emailInput = await page.locator("//form[@class='form-inline ng-untouched ng-pristine ng-valid']//input[@placeholder='Email']")
+    await emailInput.fill('admin@admin.com')
+    await expect(emailInput).toHaveValue('admin@admin.com')
+
+    // 9. List of elements has given length
+    const options = await page.locator("//button[@type='button']")
+    await expect(options).toHaveCount(1) // calculated only one element cuz other invizible in current state
+
 });
