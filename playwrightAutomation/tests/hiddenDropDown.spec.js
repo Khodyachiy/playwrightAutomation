@@ -1,6 +1,6 @@
 const {test, expect} = require('@playwright/test')
 
-test("Handle DropDown", async ({page}) => {
+test("Handle Hidden DropDown", async ({page}) => {
     await page.goto("https://playground.bondaracademy.com/pages/modal-overlays/toastr");
 
     // Click on the dropdown to reveal options

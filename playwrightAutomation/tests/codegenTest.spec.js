@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
+test('CodegenTest', async ({ page }) => {
   await page.goto('https://allo.ua/ua/dnipro/products/internet-planshety/proizvoditel-apple/');
 
   // Click on the Samsung image (using XPath locator)
